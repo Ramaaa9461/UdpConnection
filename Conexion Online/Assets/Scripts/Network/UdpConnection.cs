@@ -71,10 +71,8 @@ public class UdpConnection
             lock (handler)
             {
                 dataReceivedQueue.Enqueue(dataReceived);
+                messageReceiver.NewMessage(dataReceived.data);
             }
-
-            NetVector3 vec = new NetVector3(UnityEngine.Vector3.right * 5);
-            messageReceiver.NewMessage(vec.Serialize());
         }
         catch(SocketException e)
         {
@@ -96,13 +94,13 @@ public class UdpConnection
         connection.Send(data, data.Length, ipEndpoint);
     }
 
-    public void Send(IMessage<UnityEngine.Vector3> data)
-    {
-        connection.Send(data.Serialize(), data.Serialize().Length);
-    }
+    //public void Send(IMessage<UnityEngine.Vector3> data)
+    //{
+    //    connection.Send(data.Serialize(), data.Serialize().Length);
+    //}
 
-    public void Send(IMessage<UnityEngine.Vector3> data, IPEndPoint ipEndpoint)
-    {
-        connection.Send(data.Serialize(), data.Serialize().Length, ipEndpoint);
-    }
+    //public void Send(IMessage<UnityEngine.Vector3> data, IPEndPoint ipEndpoint)
+    //{
+    //    connection.Send(data.Serialize(), data.Serialize().Length, ipEndpoint);
+    //}
 }

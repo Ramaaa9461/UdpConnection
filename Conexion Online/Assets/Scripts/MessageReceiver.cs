@@ -4,16 +4,19 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class MessageReceiver : MonoBehaviour
-{
-    public UnityEvent<Vector3> newPosition;
 
+
+
+public class MessageReceiver
+{
+
+    UnityEngine.Vector3 positionReceived;
     public MessageReceiver()
     { }
-    
+
     public void NewMessage(byte[] message)
     {
-        int messageType;
+        int messageType = 0;
 
         messageType = BitConverter.ToInt32(message, 0);
 
@@ -26,14 +29,13 @@ public class MessageReceiver : MonoBehaviour
             case MessageType.Position:
 
                 NetVector3 netVector3 = new NetVector3(message);
-                newPosition.Invoke(netVector3.getData());
+
+                positionReceived = netVector3.getData();
 
                 break;
             default:
                 break;
         }
     }
-
-
 
 }

@@ -100,20 +100,20 @@ public class NetworkManager : MonoBehaviourSingleton<NetworkManager>, IReceiveDa
     {
         NetVector3 netVector3 = new NetVector3(Vector3.right * 4);
 
-        connection.Send(data);
-      //  connection.Send(netVector3);
+        //connection.Send(data);
+        connection.Send(netVector3.Serialize());
     }
 
     public void Broadcast(byte[] data)
     {
-        NetVector3 netVector3 = new NetVector3(Vector3.right * 4);
+        NetVector3 netVector3 = new NetVector3(Vector3.right * 5);
 
         using (var iterator = clients.GetEnumerator())
         {
             while (iterator.MoveNext())
             {
-                connection.Send(data, iterator.Current.Value.ipEndPoint);
-        //        connection.Send(netVector3, iterator.Current.Value.ipEndPoint);
+              //connection.Send(data, iterator.Current.Value.ipEndPoint);
+                connection.Send(netVector3.Serialize(), iterator.Current.Value.ipEndPoint);
             }
         }
     }
