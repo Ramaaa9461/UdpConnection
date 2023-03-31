@@ -1,10 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+
 
 
 public enum MessageType
 {
+    HandShake = -1, 
     Console = 0,
     Position = 1
 }

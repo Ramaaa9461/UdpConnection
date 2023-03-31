@@ -1,24 +1,19 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.Events;
+using System.Net;
 
-
-
-
-public class MessageReceiver
+public class MessageReceiver 
 {
+    UnityEngine.Vector3 vectorPosition;
+    byte[] message;
 
-    UnityEngine.Vector3 positionReceived;
-    public MessageReceiver()
-    { }
+    public MessageReceiver() { }
 
     public void NewMessage(byte[] message)
     {
         int messageType = 0;
 
         messageType = BitConverter.ToInt32(message, 0);
+        this.message = message;
 
         switch ((MessageType)messageType)
         {
@@ -30,12 +25,23 @@ public class MessageReceiver
 
                 NetVector3 netVector3 = new NetVector3(message);
 
-                positionReceived = netVector3.getData();
+                vectorPosition = netVector3.getData();
+
+
+                //De alguna manera le tengo que mandar la posicion al cubito
 
                 break;
+
+            case MessageType.HandShake:
+
+                NetHandShake netHandShake = new NetHandShake(message);
+
+                NetworkManager.Instance.AddClient(new IPEndPoint(netHandShake.getData().Item1, netHandShake.getData().Item2));
+
+                break;
+
             default:
                 break;
         }
     }
-
 }

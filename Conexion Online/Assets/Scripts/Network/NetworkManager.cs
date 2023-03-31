@@ -61,10 +61,19 @@ public class NetworkManager : MonoBehaviourSingleton<NetworkManager>, IReceiveDa
 
         connection = new UdpConnection(ip, port, this);
 
+        byte[] addressBytes = ipAddress.GetAddressBytes();
+        long ipAddressLong = BitConverter.ToInt32(addressBytes, 0);
+
+  
+        NetHandShake netHandShake = new NetHandShake((BitConverter.ToInt32(addressBytes, 0), port));
+
+        //SendToServer(netHandShake.Serialize());
+        
+        
         AddClient(new IPEndPoint(ip, port));
     }
 
-    private void AddClient(IPEndPoint ip)
+    public void AddClient(IPEndPoint ip)
     {
         if (!ipToId.ContainsKey(ip))
         {
@@ -98,10 +107,7 @@ public class NetworkManager : MonoBehaviourSingleton<NetworkManager>, IReceiveDa
 
     public void SendToServer(byte[] data)
     {
-        NetVector3 netVector3 = new NetVector3(Vector3.right * 4);
-
-        //connection.Send(data);
-        connection.Send(netVector3.Serialize());
+        connection.Send(data);
     }
 
     public void Broadcast(byte[] data)
@@ -112,8 +118,7 @@ public class NetworkManager : MonoBehaviourSingleton<NetworkManager>, IReceiveDa
         {
             while (iterator.MoveNext())
             {
-              //connection.Send(data, iterator.Current.Value.ipEndPoint);
-                connection.Send(netVector3.Serialize(), iterator.Current.Value.ipEndPoint);
+              connection.Send(data, iterator.Current.Value.ipEndPoint);
             }
         }
     }

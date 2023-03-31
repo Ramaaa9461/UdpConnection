@@ -5,8 +5,8 @@ using UnityEngine;
 
 public class NetVector3 : IMessage<Vector3>
 {
+    static int lastmsgID = 0;
     Vector3 data;
-
     public NetVector3(Vector3 data)
     {
         this.data = data;
@@ -38,17 +38,18 @@ public class NetVector3 : IMessage<Vector3>
         List<byte> outData = new List<byte>();
 
         outData.AddRange(BitConverter.GetBytes((int)GetMessageType()));
+    //  outData.AddRange(BitConverter.GetBytes(lastmsgID++));
 
         outData.AddRange(BitConverter.GetBytes(data.x));
         outData.AddRange(BitConverter.GetBytes(data.y));
         outData.AddRange(BitConverter.GetBytes(data.z));
 
         return outData.ToArray();
-
     }
 
     public Vector3 getData()
     {
         return data;
     }
+
 }

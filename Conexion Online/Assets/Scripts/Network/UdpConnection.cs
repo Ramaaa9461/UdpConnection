@@ -94,13 +94,4 @@ public class UdpConnection
         connection.Send(data, data.Length, ipEndpoint);
     }
 
-    //public void Send(IMessage<UnityEngine.Vector3> data)
-    //{
-    //    connection.Send(data.Serialize(), data.Serialize().Length);
-    //}
-
-    //public void Send(IMessage<UnityEngine.Vector3> data, IPEndPoint ipEndpoint)
-    //{
-    //    connection.Send(data.Serialize(), data.Serialize().Length, ipEndpoint);
-    //}
 }
